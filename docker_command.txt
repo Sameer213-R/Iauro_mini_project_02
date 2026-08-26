@@ -1,0 +1,5 @@
+-- command with docker --
+
+docker-compose up -d 
+
+docker exec -it your_postgres_container_name psql -U user_name -d database_name

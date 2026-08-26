@@ -1,0 +1,17 @@
+# python base image pull
+FROM python:3.8-slim
+
+# set the working directory in the container
+WORKDIR /app    
+
+# COPY THE DATA TO WORKING DIRECTORY
+COPY . /app
+
+# RUN REQUIREMENTS
+RUN pip install --no-cache-dir -r requirements.txt   
+
+# PORT TO BE EXPOSED
+EXPOSE 5000
+
+# COMMAND TO RUN ON CONTAINER START
+CMD ["python", "app.py"]

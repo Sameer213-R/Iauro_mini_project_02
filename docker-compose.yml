@@ -1,0 +1,30 @@
+version : '3.1'
+services:
+    db:
+        image: 'postgres:latest'
+        restart: always
+        container_name: my_postgres_container
+        environment:
+            POSTGRES_PASSWORD: 2020
+            POSTGRES_USER: root
+            POSTGRES_DB: iauro
+        ports:
+            - "5432:5432"
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U root -d iauro"]            
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+        volumes:
+            - ./postgresSQL/init.sql:/docker-entrypoint-initdb.d/init.sql
+    
+    flask_app:
+        build: ./flask_app
+        container_name: my_flask_app_container
+        restart: always
+        ports:
+            - "5000:5000"
+        depends_on:
+            db:
+                condition: service_healthy
